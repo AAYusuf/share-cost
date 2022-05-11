@@ -45,7 +45,7 @@ import {
      }
      else{
        return(
-        <Button className="primary">
+        <Button className="primary" tag={Link} to="/login">
           Login
         </Button>
        )
@@ -111,12 +111,8 @@ import {
     else{
       return(
         <Nav className="me-auto" navbar >
-          <NavItem>
-          <NavLink href="/home/">
-            Home
-          </NavLink>
-        </NavItem>
-      </Nav>
+          
+        </Nav>
       )
      
     }
