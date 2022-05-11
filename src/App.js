@@ -33,12 +33,12 @@ function App() {
         <Route path='/subscription/:id' element={<Subscription />}/>
 
         {/* Private Routes */}
-        <Route element={<PrivateRoute/>} >
+        {/* <Route element={<PrivateRoute/>} > */}
         <Route path='/my-account' element={<MyAccount />}/>
         <Route path='/create-subscription' element={<CreateSubscription />}/>
         <Route path='/my-subscriptions' element={<MySubscriptions />}/>
         <Route path='/joined/subscriptions' element={<JoinedSubscriptions />}/>
-        </Route> 
+        {/* </Route>  */}
     </Routes>        
       </AuthProvider>
   </BrowserRouter>
