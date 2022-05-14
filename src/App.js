@@ -18,27 +18,28 @@ import MyAccount from './views/MyAccount';
 import JoinSubscription from './views/JoinSubscription';
 import JoinedSubscriptions from './views/JoinedSubcriptions'
 import { AuthProvider } from './contexts/AuthContext';
-import PrivateRoute from './components/PrivateRoute'
+import PrivateRoute from './components/PrivateRoute';
+import Index from './views/Index';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
     <Routes>
-        <Route exact path="/" element={<App />}/>
+        <Route exact path="/" element={<Index />}/>
         <Route path="register" element ={<Register />}/>
         <Route path='/login' element={<Login />} />
-        <Route path='/home' element={<Home />}/>
         <Route path='/join/subscription/:id' element={<JoinSubscription />}/>
         <Route path='/subscription/:id' element={<Subscription />}/>
 
         {/* Private Routes */}
-        {/* <Route element={<PrivateRoute/>} > */}
+        <Route element={<PrivateRoute/>} >
+        <Route path='/home' element={<Home />}/>
         <Route path='/my-account' element={<MyAccount />}/>
         <Route path='/create-subscription' element={<CreateSubscription />}/>
         <Route path='/my-subscriptions' element={<MySubscriptions />}/>
         <Route path='/joined/subscriptions' element={<JoinedSubscriptions />}/>
-        {/* </Route>  */}
+        </Route> 
     </Routes>        
       </AuthProvider>
   </BrowserRouter>
