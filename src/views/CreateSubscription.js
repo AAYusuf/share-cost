@@ -10,6 +10,7 @@ import {db} from '../firebase-config';
 import {collection, addDoc,} from 'firebase/firestore';
 import { serverTimestamp } from '@firebase/firestore'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Navigate } from "react-router-dom";
 
 
 
@@ -27,7 +28,9 @@ export default class CreateSubscription extends react.Component{
                       totalPlaces:0,
                       loginType: 'same', // Same login /  One login per subscriber
                       loginDetails:'Hello world',
-                      userId:""
+                      userId:"",
+                      done: false,
+                      notDone: false
          };
       }
 
@@ -71,9 +74,11 @@ export default class CreateSubscription extends react.Component{
                    
                 }) .then((response) => {
                     toast('success');
+                    this.setState({ done: true });                    
                   })
                   .catch((error) => {
                       toast.error(error.code);
+                      this.setState({ notDone: true });
                     })
         } 
         else{
@@ -180,6 +185,7 @@ export default class CreateSubscription extends react.Component{
         this.setState({step :Number(e.target.id)})
     }
     render(){
+        let { done } = this.state;
         return(
             <div>
                  <Row style={{ height: '100vh' }}>
@@ -204,6 +210,7 @@ export default class CreateSubscription extends react.Component{
                     </Col>
                     <Col style={{ backgroundColor: '#F0F0F0'}} >
                         {this.handleForm()}
+                        {done && (<Navigate to="/my-subscriptions" replace={true} />)}
                     </Col>
                 </Row>
                 <ToastContainer />
