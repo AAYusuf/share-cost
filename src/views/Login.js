@@ -1,10 +1,8 @@
 import React from "react";
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import {useAuth} from '../contexts/AuthContext'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword,GoogleAuthProvider } from 'firebase/auth';
 import {
     Alert,
     Button,
@@ -19,48 +17,27 @@ import {
     Row,
     Col
   } from "reactstrap";
+import google from '../assets/images/icons/google.svg';
+
 
 export default function Login(){
  const {login} = useAuth()
+ const {loginWithGoogle} = useAuth()
  const [email, setEmail] = useState('')
  const [password, setPassword] = useState('')
  let navigate = useNavigate();
- const [error, seterror] = useState("")
- const [isLoading, setisLoading] = useState(false)
  const {currentUser} = useAuth()
- const auth = getAuth(); 
+ const {error} = useAuth()
+ const [loading, setloading] = useState(false)
+ 
     
- const handleAction = () => {
-        const authentication = getAuth();
-         signInWithEmailAndPassword(authentication, email, password)
-              .then((response) => {
-                navigate('/my-account')
-                sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
-              })
-              .catch((error) => {
-                console.log(error.code)
-                if(error.code === 'auth/wrong-password'){
-                    toast.error('Please check the Password');
-                  }
-                  if(error.code === 'auth/user-not-found'){
-                    toast.error('Please check the Email');
-                  }
-            })
-        }
+     const handleLogin =  () =>{
+        login( email, password)
+     }
 
-        // const handleSubmit = async () =>{
-
-        //   try{
-        //     setisLoading(true)
-        //     seterror("")
-        //     await login(email, password)
-        //     navigate('/home')
-        //   }
-        //   catch{
-        //     seterror("Failed to create an account")
-        //   }
-        //   setisLoading(false)
-        // }
+     const handleGoogleLogin = () =>{
+      loginWithGoogle()
+     }
 
     return(
         <Container className="pt-lg-7">
@@ -73,29 +50,15 @@ export default function Login(){
                       </div>
                       <div className="btn-wrapper text-center">
                         <Button
-                          className="btn-neutral btn-icon"
-                          color="default"
-                          href="#pablo"
-                          onClick={e => e.preventDefault()}
-                        >
-                          <span className="btn-inner--icon mr-1">
-                            <img
-                              alt="..."
-                              src={require("../assets/images/icons/github.svg")}
-                            />
-                          </span>
-                          <span className="btn-inner--text">Github</span>
-                        </Button>
-                        <Button
                           className="btn-neutral btn-icon ml-1"
                           color="default"
                           href="#pablo"
-                          onClick={e => e.preventDefault()}
+                          onClick={handleGoogleLogin}
                         >
                           <span className="btn-inner--icon mr-1">
                             <img
                               alt="..."
-                              src={require("../assets/images/icons/google.svg")}
+                              src={google}
                             />
                           </span>
                           <span className="btn-inner--text">Google</span>
@@ -104,7 +67,7 @@ export default function Login(){
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
 
-                    {error && <Alert variant="danger">{error }</Alert>}
+                    {error && <Alert className="alert-danger">{error }</Alert>}
 
                       <div className="text-center text-muted mb-4">
                         <small>Or sign in with credentials</small>
@@ -151,9 +114,10 @@ export default function Login(){
                             className="my-4"
                             color="primary"
                             type="button"
-                            onClick={handleAction}
+                            onClick={handleLogin}
+                            disabled={loading}
                           >
-                            Sign in
+                            Login 
                           </Button>
                         </div>
                       </Form>
@@ -181,7 +145,6 @@ export default function Login(){
                   </Row>
                 </Col>
               </Row>
-              <ToastContainer />
             </Container>
     )
 }
