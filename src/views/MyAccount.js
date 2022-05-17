@@ -5,7 +5,6 @@ import {useAuth} from '../contexts/AuthContext'
 
 const MyAccount = () =>{
     const {currentUser} = useAuth()
-    console.log(currentUser)
     return(
         <div>
              <DemoNavbar />
