@@ -1,33 +1,39 @@
-import React, {useEffect,useState} from 'react';
 import DemoNavbar from '../components/Navbar';
-import {Container, Table} from 'reactstrap'
 import {useAuth} from '../contexts/AuthContext'
+import {Button, Col, Row} from 'reactstrap'
+import AccountMenu from '../components/AccountMenu';
 
 const MyAccount = () =>{
     const {currentUser} = useAuth()
-    console.log(currentUser)
     return(
         <div>
-             <DemoNavbar />
-             <Container>
-               <Table className="table">
-                   <tbody>
-                    <tr>
-                        <td><b>Username</b></td>
-                        <td>{currentUser?currentUser.email:""}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Created At</b></td>
-                        <td>{currentUser?currentUser.metadata.creationTime:""}</td>
-                    </tr>
-                    <tr>
-                         <td><b>Last Login</b></td>
-                        <td>{currentUser?currentUser.metadata.lastSignInTime:""}</td>
-                    </tr>
-                   </tbody>
-               </Table>
-             </Container>
-            
+            <DemoNavbar />
+            <Row>
+                 <h4>Hi {currentUser.email}</h4>
+            </Row>
+            <Row style={{ height: '100vh' }}>
+                <Col className="col-md-3 no-float" >
+                    <AccountMenu/>
+                </Col>
+                <Col style={{ backgroundColor: '#F0F0F0'}} >
+                    <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                        <div>
+                            <a  href="/my-subscriptions" style={{border:" 1px solid black", padding:"0.5rem"}}> Shared Subscriptions</a>
+                            <a href="/joined/subscriptions"style={{border:" 1px solid black", padding:"0.5rem"}}> Joined Subscriptions</a>
+                        </div>
+                       <div>
+                            <Button
+                                className="mt-4"
+                                color="primary"
+                                type="submit"
+                                >
+                                Create Subscription
+                            </Button>
+                       </div>
+                        
+                    </div>
+                </Col>
+            </Row>
         </div>
     )
 }

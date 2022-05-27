@@ -3,9 +3,7 @@ import{
     Card,
     CardBody,
     CardTitle,
-    CardSubtitle,
     CardText,
-    Button,
     CardImg 
 } from 'reactstrap';
 import netflix from '../assets/images/icons/netflix.jpeg';

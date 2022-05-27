@@ -17,9 +17,14 @@ import Subscription from './components/Subscription';
 import MyAccount from './views/MyAccount';
 import JoinSubscription from './views/JoinSubscription';
 import JoinedSubscriptions from './views/JoinedSubcriptions'
+import Profile from './views/Profile'
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import Index from './views/Index';
+import Wallet from './views/Wallet';
+import Bank from './views/Bank';
+import Settings from './views/Settings';
+
 
 function App() {
   return (
@@ -39,6 +44,10 @@ function App() {
         <Route path='/create-subscription' element={<CreateSubscription />}/>
         <Route path='/my-subscriptions' element={<MySubscriptions />}/>
         <Route path='/joined/subscriptions' element={<JoinedSubscriptions />}/>
+        <Route path='/wallet' element={<Wallet />}/>
+        <Route path='/bank' element={<Bank />}/>
+        <Route path='/settings' element={<Settings />}/>
+        <Route path='/profile' element={<Profile />}/>
         </Route> 
     </Routes>        
       </AuthProvider>
