@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import {db} from '../firebase-config';
 import netflix from '../assets/images/icons/netflix.jpeg';
 import { Link } from "react-router-dom";
-import { collection, query, where, getDocs, doc, getDoc} from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc, deleteDoc} from 'firebase/firestore';
 import {useAuth} from '../contexts/AuthContext'
+import { ToastContainer, toast } from 'react-toastify';
 
 import {Container, 
     Col, 
@@ -27,23 +28,20 @@ function Subscription() {
     const [subscribedUsers, setsubcribedUsers] = useState([])
     const {currentUser} = useAuth()
     const [isSubscribed, setisSubscribed] = useState(false)
-
+    const subId = params.id;
     let navigate = useNavigate();
 
 
     useEffect(() => {
         const  getSubscription = async () => {
             
-            const docRef = doc(db, "subscriptions", params.id);
+            const docRef = doc(db, "subscriptions", subId);
             const docSnap = await getDoc(docRef);
             setSub(docSnap.data())
-            console.log("async useEffect")
-            getSubscribedUsers(params.id);
+            getSubscribedUsers(subId);
          };
          getSubscription();
-       
-         console.log("useEffect")
-         
+        
     },[])
 
 
@@ -57,7 +55,6 @@ function Subscription() {
     
    setsubcribedUsers(...querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));  
    isUserSubscribed() 
-   console.log("get sub users")
   
 } 
 const renderSubscribedUsers = () =>{
@@ -77,7 +74,6 @@ const renderSubscribedUsers = () =>{
 }
 
 const isUserSubscribed = () =>{
-    console.log("yes")
   if(subscribedUsers.length===0){
   
   }
@@ -100,9 +96,21 @@ const getSubscriptionButton = () =>{
     }
 }
 
+//delete subscription
+
+const  deleteSubscription = async() =>{
+    await deleteDoc(doc(db, "subscriptions", subId))
+        .then((response) => {
+            toast('success');
+            navigate('/home')
+        })
+        .catch((error) => {
+            toast.error(error.code);
+            });
+}
+
     return(
         <div>
-            {console.log("render")}
             <DemoNavbar />
             <Container> 
                 <Row className="mt-5">
@@ -281,10 +289,15 @@ const getSubscriptionButton = () =>{
                             <Button>
                                 Send
                             </Button>
+                            <br/>
+                            <Button color="danger" onClick={deleteSubscription}>
+                                Delete Subscription
+                            </Button>
                         </Card>
                     </Col>
                 </Row>
             </Container>
+            <ToastContainer />
         </div>
     )
 
