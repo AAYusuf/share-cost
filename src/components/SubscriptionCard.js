@@ -1,30 +1,42 @@
 import react from 'react';
+import moment from 'moment'
+import { Link } from "react-router-dom";
 import{
+    Button,
     Card,
     CardBody,
-    CardTitle,
     CardText,
-    CardImg 
+    Row,
+    Col
 } from 'reactstrap';
-import netflix from '../assets/images/icons/netflix.jpeg';
-
 
 const SubscriptionCard = ({sub}) => {
     return(
         <Card>
             <CardBody>
-                <CardTitle tag="h5">
-                    {sub.subscriptionTitle}
-                </CardTitle>
-                <CardImg
-                    alt="Card image cap"
-                    src={netflix}
-                    top
-                    width="100%"
-                    />
-                <CardText>
-                    {sub.subscriptionDescription}
+                <div> 
+                    <Row style={{}}>
+                        <Col>
+                        
+                            <h4>{sub.subscriptionTitle}</h4>
+                            <small>{sub.visibility} -  Created At:{moment(sub.createdAt.toDate()).format('L')}</small>
+                  
+                        </Col>
+                        <Col  className="mb-2 text-muted" style={{display:"flex", justifyContent:"center"}}>
+                        <h3 >₦{sub.subscriptionPrice}</h3> monthly
+                        </Col>
+                    </Row>
+                    
+                
+               </div>
+               
+                <CardText className="mt-4">
+                    {sub.subscriptionDescription}<br/>
+                    {sub.availablePlaces}/{sub.totalPlaces} Subscription(s) Available
                 </CardText>
+                <Button tag={Link} to={'/subscription/'+sub.id}>
+                    View Details
+                </Button>
             </CardBody>
          </Card>
     )

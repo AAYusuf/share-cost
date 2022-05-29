@@ -2,6 +2,7 @@ import DemoNavbar from '../components/Navbar';
 import {useAuth} from '../contexts/AuthContext'
 import {Button, Col, Row} from 'reactstrap'
 import AccountMenu from '../components/AccountMenu';
+import { Link } from "react-router-dom";
 
 const MyAccount = () =>{
     const {currentUser} = useAuth()
@@ -26,6 +27,7 @@ const MyAccount = () =>{
                                 className="mt-4"
                                 color="primary"
                                 type="submit"
+                                tag={Link} to={'/create-subscription'}
                                 >
                                 Create Subscription
                             </Button>

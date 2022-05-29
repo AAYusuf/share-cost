@@ -49,10 +49,8 @@ export default function Home(){
         }
         else{
         return subscriptions.map((sub) => 
-              <Col md='3' className="mt-3" key={sub.id}>
-                  <Link to={'/subscription/'+sub.id}>
-                      <SubscriptionCard sub={sub}/>
-                  </Link>
+              <Col md='6' className="mt-3" key={sub.id}>
+                    <SubscriptionCard sub={sub}/>
               </Col>)
           
         }
