@@ -9,7 +9,7 @@ import {
   Route
 } from "react-router-dom";
 import Home from './views/Home';
-import Login from './views/Login';
+import Login from './views/Login/Login';
 import Register from './views/Register'; 
 import CreateSubscription from './views/CreateSubscription';
 import MySubscriptions from './views/MySubscriptions';
@@ -35,10 +35,10 @@ function App() {
         <Route path="register" element ={<Register />}/>
         <Route path='/login' element={<Login />} />
         <Route path='/join/subscription/:id' element={<JoinSubscription />}/>
-        <Route path='/subscription/:id' element={<Subscription />}/>
 
         {/* Private Routes */}
         <Route element={<PrivateRoute/>} >
+        <Route path='/subscription/:id' element={<Subscription />}/>
         <Route path='/home' element={<Home />}/>
         <Route path='/my-account' element={<MyAccount />}/>
         <Route path='/create-subscription' element={<CreateSubscription />}/>

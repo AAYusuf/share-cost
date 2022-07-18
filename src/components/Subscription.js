@@ -26,6 +26,7 @@ function Subscription() {
     const params = useParams();
     const [sub, setSub] = useState({})
     const [subscribedUsers, setsubcribedUsers] = useState([])
+    const [subscribedUsersDetails, setsubscribedUsersDetails] = useState([])
     const {currentUser} = useAuth()
     const [isSubscribed, setisSubscribed] = useState(false)
     const subId = params.id;
@@ -41,36 +42,47 @@ function Subscription() {
             getSubscribedUsers(subId);
          };
          getSubscription();
-        
+        //  renderSubscribedUsers();
     },[])
 
 
   //get subscribed users for user
-  const  getSubscribedUsers = async (subId) => {
+  const  getSubscribedUsers= async (subId) => {
+      
     // query by sub id 
     const q = query(collection(db, "junctionUserSubscription"), where("subscriptionId", "==", subId));
     
     //get docs from juchtion collectiom
     const querySnapshot = await getDocs(q);
     
-   setsubcribedUsers(...querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));  
+   setsubcribedUsers(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));  
    isUserSubscribed() 
-  
-} 
+   
+}
 const renderSubscribedUsers = () =>{
-    if(subscribedUsers.length===0){
-        return (<p>No Subscribers yet</p>)
-         
-      }
-      else{
-    //   return joinedSubs.map((sub, index) => 
-    //      <Col  md='3' className="mt-3" key={index}>
-    //             <Link to={'/subscription/'+sub.id}>
-    //                 <SubscriptionCard sub={sub}/>
-    //             </Link>
-    //         </Col>)
-        
-      }
+    let url ='http://localhost:3000/share-cost/getUsers'
+        var options = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: subscribedUsers.length !== 0 ? JSON.stringify(subscribedUsers) : undefined
+          };
+        if (currentUser) {
+        currentUser.getIdToken(true)
+        .then(function(idToken) {
+            options.headers["Authorization"] = "Bearer " + idToken;
+            fetch(url, options)
+            .then(res => res.json())
+            .then(d => {
+                setsubscribedUsersDetails(d)});
+          })
+          .catch(error => { 
+            console.log(error);
+          });
+        } else {
+        fetch(url, options);
+     }
 }
 
 const isUserSubscribed = () =>{
@@ -107,6 +119,34 @@ const  deleteSubscription = async() =>{
         .catch((error) => {
             toast.error(error.code);
             });
+}
+
+//displays table rows of subscribed users
+const showSubscribedUsers = () =>{
+
+    
+    if(subscribedUsersDetails.length>0){
+        console.log(subscribedUsersDetails)
+
+        const subscribers = subscribedUsersDetails.map((user, index) =>
+             <tr  key={index}>
+                     <td>{index} </td>
+                     <td>{user.email}</td>
+            </tr>
+            )
+
+            return subscribers
+    }
+ 
+ else{
+     return(
+         <tr> 
+             <td>No subscribers</td> 
+             <td>No subscribers</td> 
+         </tr>
+     )
+ }
+ 
 }
 
     return(
@@ -191,7 +231,7 @@ const  deleteSubscription = async() =>{
                             <CardText>
                                 <Input placeholder="type here..." />                        
                             </CardText>
-                                <Button color="primary" >Subscribe Now</Button>
+                                <Button color="primary" onClick={()=> renderSubscribedUsers()}>Render Now</Button>
                             
                           
                         </Card>
@@ -230,59 +270,12 @@ const  deleteSubscription = async() =>{
                                             #
                                         </th>
                                         <th>
-                                            First Name
-                                        </th>
-                                        <th>
-                                            Last Name
-                                        </th>
-                                        <th>
-                                            Username
+                                            Email
                                         </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                        <th scope="row">
-                                            1
-                                        </th>
-                                        <td>
-                                            Mark
-                                        </td>
-                                        <td>
-                                            Otto
-                                        </td>
-                                        <td>
-                                            @mdo
-                                        </td>
-                                        </tr>
-                                        <tr>
-                                        <th scope="row">
-                                            2
-                                        </th>
-                                        <td>
-                                            Jacob
-                                        </td>
-                                        <td>
-                                            Thornton
-                                        </td>
-                                        <td>
-                                            @fat
-                                        </td>
-                                        </tr>
-                                        <tr>
-                                        <th scope="row">
-                                            3
-                                        </th>
-                                        <td>
-                                            Larry
-                                        </td>
-                                        <td>
-                                            the Bird
-                                        </td>
-                                        <td>
-                                            @twitter
-                                        </td>
-                                        </tr>
+                                        {showSubscribedUsers()}
                                     </tbody>
                                 </Table>
                             

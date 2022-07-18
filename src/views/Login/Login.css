@@ -1,0 +1,32 @@
+.login-main{
+    height: 100vh;
+    display: flex;
+    background: linear-gradient(to right, #007E94 0%,  #007E94 50%, #E2E3EA 50%, #E2E3EA 100%);
+ 
+}
+.logo{
+    color: white;
+    margin-top: 30px;
+    margin-left: 50px;
+}
+.login-container{
+    height: 600px;
+    border:  10px solid rgba(217, 217, 217, .23);
+    border-radius: 52px;
+    width: 80%;
+    box-shadow: 7px 8px  rgba(0, 0, 0, .5);
+}
+.caption{
+    color: white;
+    font-weight: 200;
+    font-size: 30px;
+}
+
+.login-button{
+    background-color: #007E94;
+    border-radius: 15px;
+}
+.login-google{
+    background-color: #233142;
+    border-radius: 15px;
+}
