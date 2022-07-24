@@ -3,6 +3,13 @@ import React from 'react';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import './assets/css/argon-design-system-react.css'
+import "./assets/vendor/nucleo/css/nucleo.css";
+import "./assets/vendor/font-awesome/css/font-awesome.min.css";
+// import "./assets/scss/argon-design-system-react.scss";
+
+
+
 import {
   BrowserRouter,
   Routes,
@@ -24,6 +31,7 @@ import Index from './views/Index';
 import Wallet from './views/Wallet';
 import Bank from './views/Bank';
 import Settings from './views/Settings';
+import Test from './views/Test';
 
 
 function App() {
@@ -34,6 +42,7 @@ function App() {
         <Route exact path="/" element={<Index />}/>
         <Route path="register" element ={<Register />}/>
         <Route path='/login' element={<Login />} />
+        <Route path='/Test' element={<Test />} />
         <Route path='/join/subscription/:id' element={<JoinSubscription />}/>
 
         {/* Private Routes */}
