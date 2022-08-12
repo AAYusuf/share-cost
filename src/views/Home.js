@@ -1,12 +1,15 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import DemoNavbar from '../components/Navbar'
+import Navbar from '../components/Navbar'
+import SearchBar from '../components/SearchBar'
 import SubscriptionCard from "../components/SubscriptionCard";
 import { Container,Row, Col } from "reactstrap";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import {db} from '../firebase-config';
 import {collection, query,  getDocs} from 'firebase/firestore';
 import {  Link } from 'react-router-dom'
+import Filters from '../components/Filters';
+import Categories from '../components/Categories';
 
 
 
@@ -16,16 +19,9 @@ export default function Home(){
     
 
     useEffect(() => {
-        onAuthStateChanged(auth, (authUser) => {
-            if (authUser) {
-             let   user = authUser
-                getSubscriptions();  
-            } 
-            else{
-                console.log("none")  ;
-            }
-            })
-
+        
+       getSubscriptions();  
+           
     }, [])
 
     //get all Subscriptions 
@@ -49,7 +45,7 @@ export default function Home(){
         }
         else{
         return subscriptions.map((sub) => 
-              <Col md='3' className="mt-3" key={sub.id}>
+              <Col md='4' className="mt-3" key={sub.id}>
                   <Link to={'/subscription/'+sub.id}>
                       <SubscriptionCard sub={sub}/>
                   </Link>
@@ -61,12 +57,35 @@ export default function Home(){
 
     return(
         <div>
-            <DemoNavbar />
+            <Navbar />
             <Container>
-            <h3>Home Page </h3> <p>(shows all subscription listed for all users)</p>
-                <Row>
-                {renderSubscriptions()}
-                </Row>
+                <Row className="row-grid justify-content-center mt-4">
+                    <Col className="text-center" lg="10">
+                        <h2 className="display-3">
+                        Do you love this awesome{" "}
+                        <span className="text-success">
+                            Design System for Bootstrap 4?
+                        </span>
+                        </h2>
+                        <p className="lead">
+                        Discover a range of free learning content designed to help
+                        grow your business or jumpstart your career. You can learn 
+                        by selecting individual modules, or dive right in and take 
+                        an entire course end-to-end.
+                        </p>
+                    </Col>
+                  </Row>
+                    <SearchBar/>
+                    <Categories/>
+                    <Filters/>
+
+                    <hr/>
+                    <Row>
+                    {renderSubscriptions()}
+                    </Row>
+
+                 
+               
             </Container>
         </div>
     )

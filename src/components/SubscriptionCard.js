@@ -2,8 +2,6 @@ import react from 'react';
 import{
     Card,
     CardBody,
-    CardTitle,
-    CardText,
     CardImg 
 } from 'reactstrap';
 import netflix from '../assets/images/icons/netflix.jpeg';
@@ -11,20 +9,20 @@ import netflix from '../assets/images/icons/netflix.jpeg';
 
 const SubscriptionCard = ({sub}) => {
     return(
-        <Card>
-            <CardBody>
-                <CardTitle tag="h5">
+        <Card className="card-lift--hover shadow border-0">
+            <CardBody className="py-5">
+                 <h6 className="text-primary text-uppercase">
                     {sub.subscriptionTitle}
-                </CardTitle>
+                </h6>
                 <CardImg
                     alt="Card image cap"
                     src={netflix}
                     top
                     width="100%"
                     />
-                <CardText>
+                 <p className="description mt-3">
                     {sub.subscriptionDescription}
-                </CardText>
+                </p>
             </CardBody>
          </Card>
     )

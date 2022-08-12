@@ -31,7 +31,7 @@ import Index from './views/Index';
 import Wallet from './views/Wallet';
 import Bank from './views/Bank';
 import Settings from './views/Settings';
-import Test from './views/Test';
+
 
 
 function App() {
@@ -42,13 +42,12 @@ function App() {
         <Route exact path="/" element={<Index />}/>
         <Route path="register" element ={<Register />}/>
         <Route path='/login' element={<Login />} />
-        <Route path='/Test' element={<Test />} />
         <Route path='/join/subscription/:id' element={<JoinSubscription />}/>
+        <Route path='/home' element={<Home />}/>
 
         {/* Private Routes */}
         <Route element={<PrivateRoute/>} >
         <Route path='/subscription/:id' element={<Subscription />}/>
-        <Route path='/home' element={<Home />}/>
         <Route path='/my-account' element={<MyAccount />}/>
         <Route path='/create-subscription' element={<CreateSubscription />}/>
         <Route path='/my-subscriptions' element={<MySubscriptions />}/>
