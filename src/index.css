@@ -16,3 +16,14 @@ code {
   cursor:"pointer"
   
 }
+.card{
+  background-color: lightsalmon;
+}
+.card:hover {
+  border-color: var(--color-dark-gray);
+  
+  
+}
+.card:hover .radio:checked {
+  border-color: var(--color-green);
+}

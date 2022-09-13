@@ -26,7 +26,8 @@ const MyAccount = () =>{
                                 className="mt-4"
                                 color="primary"
                                 type="submit"
-                                >
+                                href="/create-subscription"
+                                > 
                                 Create Subscription
                             </Button>
                        </div>

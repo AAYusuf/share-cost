@@ -19,18 +19,20 @@ export default class CreateSubscription extends react.Component{
         super(props);
         this.state = {step: 1,
                       category:'tv',
-                      subscriptionTitle:'Test',
+                      subscriptionTitle:'',
                       subscriptionDescription:'This is a test',
                       visibility:'private',
                       priceType:'fixed', //fixed or variable
-                      subscriptionPrice: 0 ,
-                      availablePlaces:0,
-                      totalPlaces:0,
+                      subscriptionPrice: 5000,
+                      availablePlaces: 3,
+                      totalPlaces: 3,
                       loginType: 'same', // Same login /  One login per subscriber
                       loginDetails:'Hello world',
                       userId:"",
+                      formFieldError: false,
                       done: false,
                       notDone: false
+
          };
       }
 
@@ -42,14 +44,32 @@ export default class CreateSubscription extends react.Component{
     }
 // go back to previous step
     nextStep = () => {
-        const { step } = this.state;
-        this.setState({ step: step + 1 });
+         const { step } = this.state;
+         this.setState({ step: step + 1 });
+        
     }
+
+    // form validation
+    validate = () => {
+    switch (this.state.step) {
+        case 2:
+            if(!this.state.subscriptionTitle || this.state.subscriptionTitle .trim() == ""){
+                console.log("empty")
+                this.setState(()=>{return{formFieldError:true}})
+                return "First name is Required";
+            } else {
+                return "";
+                }
+    }
+}
 
 // handle field change
     handleChange =  e => {
         this.setState({ [e.target.name]: e.target.value });
+
+        
     }
+    
 
 // handle create subcription form submission
  createSubscription = ()=>{
@@ -182,33 +202,52 @@ export default class CreateSubscription extends react.Component{
 
     }
     handleAsideMenu = (e) =>{
+        if(e.target.id> this.state.step){
+            return
+        }
         this.setState({step :Number(e.target.id)})
     }
+
+    displayMenuIcon = (position) =>{
+        
+            if(this.state.step == position){
+                return(  
+                <i className="fa fa-arrow-right animate__animated  animate__fadeInLeft"></i>
+                )
+            }
+            else if(this.state.step > position)
+            return(  
+                <i className="fa-solid fa-circle-check animate__animated animate__fadeInUp"></i>
+            )
+        
+    }
+   
+    
     render(){
         let { done } = this.state;
         return(
             <div>
                  <Row style={{ height: '100vh' }}>
-                    <Col className="col-md-3 no-float" >
-                        <List type="styled">
+                    <Col className="col-md-3 d-flex align-items-center mx-auto justify-content-center" >
+                        <List type="unstyled">
                             <li className="cs-list-item" id= "1" onClick={this.handleAsideMenu}>
-                                Category
+                             {this.displayMenuIcon(1)}  Category
                             </li>
                             <li className="cs-list-item" id= "2" onClick={this.handleAsideMenu}>
-                                Subscription Information
+                             {this.displayMenuIcon(2)}   Subscription Information
                             </li>
                             <li className="cs-list-item" id= "3" onClick={this.handleAsideMenu}>
-                                Visibility
+                             {this.displayMenuIcon(3)}   Visibility
                             </li>
                             <li className="cs-list-item" id= "4" onClick={this.handleAsideMenu}> 
-                                Price
+                            {this.displayMenuIcon(4)}   Price
                             </li>
                             <li className="cs-list-item" id= "5" onClick={this.handleAsideMenu}>
-                                Login Details
+                            {this.displayMenuIcon(5)}  Login Details
                             </li>
                         </List>
                     </Col>
-                    <Col style={{ backgroundColor: '#F0F0F0'}} >
+                    <Col className="d-flex align-items-center mx-auto justify-content-center" style={{ backgroundColor: '#F0F0F0'}} >
                         {this.handleForm()}
                         {done && (<Navigate to="/my-subscriptions" replace={true} />)}
                     </Col>
